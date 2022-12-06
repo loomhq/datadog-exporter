@@ -1,0 +1,32 @@
+name: Validate
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.19 # https://golang.org/dl/
+      - name: Install govulncheck
+        run: go install golang.org/x/vuln/cmd/govulncheck@latest
+      - name: Hadolint
+        uses: hadolint/hadolint-action@v3.0.0
+      - name: Goreleaser Check
+        uses: goreleaser/goreleaser-action@v3.2.0
+        with:
+          args: check
+      - name: Go Mod Tidy
+        run: test -z $(go mod tidy)
+      - name: Lint
+        uses: golangci/golangci-lint-action@v3.3.1
+      - name: Test
+        run: go test -race -cover -v ./...
+      - name: Run govulncheck
+        run: govulncheck ./...

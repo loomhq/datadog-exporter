@@ -1,0 +1,33 @@
+project_name: datadog-exporter
+before:
+  hooks:
+    - go mod download
+builds:
+  - id: datadog-exporter
+    binary: datadog-exporter
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - arm
+      - arm64
+      - amd64
+    env:
+      - CGO_ENABLED=0
+archives:
+  - id: datadog-exporter
+    format: binary
+release:
+  prerelease: auto
+checksum:
+  name_template: "checksums.txt"
+snapshot:
+  name_template: "{{ .Tag }}-next"
+dockers:
+  - dockerfile: Dockerfile
+    image_templates:
+      - ghcr.io/loomhq/datadog-exporter:latest
+      - ghcr.io/loomhq/datadog-exporter:{{ .Version }}
+      - ghcr.io/loomhq/datadog-exporter:{{ .Major }}
+      - ghcr.io/loomhq/datadog-exporter:{{ .Major }}.{{ .Minor }}
