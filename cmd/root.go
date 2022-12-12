@@ -17,6 +17,7 @@ func (c *cli) newRootCmd() *cobra.Command {
 	cmd.AddCommand(
 		c.newVersionCmd(),
 		c.newDashboardsCmd(),
+		c.newMonitorsCmd(),
 	)
 
 	return cmd

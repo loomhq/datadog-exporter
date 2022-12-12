@@ -3,6 +3,10 @@ dist/
 *.test
 datadog-exporter
 
+# Export Directories
+monitors/
+dashboards/
+
 # Coverage
 *.out
 coverage.txt
