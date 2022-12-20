@@ -1,6 +1,6 @@
 cloud.google.com/go v0.34.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
-github.com/DataDog/datadog-api-client-go/v2 v2.5.0 h1:+FRtNnR+IZ4D5lGqEk+f0+dSP7XhKtrlHvdcnTdyny8=
-github.com/DataDog/datadog-api-client-go/v2 v2.5.0/go.mod h1:98b/MtTwSAr/yhTfhCR1oxAqQ/4tMkdrgKH7fYiDA0g=
+github.com/DataDog/datadog-api-client-go/v2 v2.6.0 h1:E5w92w3+wFu9JrCuW9JJ90CVq+AHbT5kkewIcbjwtQI=
+github.com/DataDog/datadog-api-client-go/v2 v2.6.0/go.mod h1:sHt3EuVMN8PSYJu065qwp3pZxCwR3RZP4sJnYwj/ZQY=
 github.com/DataDog/zstd v1.5.0 h1:+K/VEwIAaPcHiMtQvpLD4lqW7f0Gk3xdYZmI1hD+CXo=
 github.com/DataDog/zstd v1.5.0/go.mod h1:g4AWEaM3yOg3HYfnJ3YIawPnVdXJh9QME85blwSAmyw=
 github.com/benbjohnson/clock v1.1.0 h1:Q92kusRqC1XV2MjkWETPvjJVqKetz1OzxZB7mHJLju8=
