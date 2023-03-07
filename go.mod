@@ -3,7 +3,7 @@ module github.com/loomhq/datadog-exporter
 go 1.20
 
 require (
-	github.com/DataDog/datadog-api-client-go/v2 v2.9.0
+	github.com/DataDog/datadog-api-client-go/v2 v2.10.0
 	github.com/spf13/cobra v1.6.1
 	go.uber.org/zap v1.24.0
 )
