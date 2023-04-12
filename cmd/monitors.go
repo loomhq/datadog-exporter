@@ -1,11 +1,13 @@
 package cmd
 
 import (
+	"fmt"
 	"path/filepath"
 	"strconv"
 
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"
+	"golang.org/x/sync/errgroup"
 )
 
 // newMonitorsCmd creates the command exporting monitors.
@@ -26,19 +28,32 @@ func (c *cli) newMonitorsCmd() *cobra.Command {
 				c.log.Fatalw("failed to list monitors", zap.Error(err))
 			}
 
+			g, ctx := errgroup.WithContext(cmd.Context())
+			g.SetLimit(concurrency)
+
 			for _, id := range monitors {
-				log := c.log.With(zap.Int64("id", id))
-				log.Info("exporting monitor")
+				id := id
+				g.Go(func() error {
+					log := c.log.With(zap.Int64("id", id))
+					log.Info("exporting monitor")
 
-				json, err := ddc.monitorJSON(cmd.Context(), id)
-				if err != nil {
-					c.log.Fatalw("failed to get monitor json", zap.Error(err))
-				}
+					json, err := ddc.monitorJSON(ctx, id)
+					if err != nil {
+						return fmt.Errorf("failed to get json for monitor: %d: %w", id, err)
+					}
 
-				err = ddc.writeJSONToFile(filepath.Join(args[0], strconv.FormatInt(id, 10)), json)
-				if err != nil {
-					c.log.Fatalw("failed to write monitor json to file", zap.Error(err))
-				}
+					err = ddc.writeJSONToFile(filepath.Join(args[0], strconv.FormatInt(id, 10)), json)
+					if err != nil {
+						return fmt.Errorf("failed to write json for monitor: %d: %w", id, err)
+					}
+
+					return nil
+				})
+			}
+
+			err = g.Wait()
+			if err != nil {
+				c.log.Fatalw("failed to export monitors", zap.Error(err))
 			}
 
 			c.log.Info("monitor export completed")

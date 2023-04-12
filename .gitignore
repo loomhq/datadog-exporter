@@ -4,8 +4,10 @@ dist/
 datadog-exporter
 
 # Export Directories
+metrics/
 monitors/
 dashboards/
+analysis.json
 
 # Coverage
 *.out

@@ -6,6 +6,7 @@ require (
 	github.com/DataDog/datadog-api-client-go/v2 v2.11.0
 	github.com/spf13/cobra v1.7.0
 	go.uber.org/zap v1.24.0
+	golang.org/x/sync v0.1.0
 )
 
 require (
