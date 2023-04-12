@@ -1,10 +1,12 @@
 package cmd
 
 import (
+	"fmt"
 	"path/filepath"
 
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"
+	"golang.org/x/sync/errgroup"
 )
 
 // newDashboardsCmd creates the command exporting dashboards.
@@ -25,19 +27,32 @@ func (c *cli) newDashboardsCmd() *cobra.Command {
 				c.log.Fatalw("failed to list dashboards", zap.Error(err))
 			}
 
+			g, ctx := errgroup.WithContext(cmd.Context())
+			g.SetLimit(concurrency)
+
 			for _, id := range dashboards {
-				log := c.log.With(zap.String("id", id))
-				log.Info("exporting dashboard")
+				id := id
+				g.Go(func() error {
+					log := c.log.With(zap.String("id", id))
+					log.Info("exporting dashboard")
 
-				json, err := ddc.dashboardJSON(cmd.Context(), id)
-				if err != nil {
-					c.log.Fatalw("failed to get dashboard json", zap.Error(err))
-				}
+					json, err := ddc.dashboardJSON(ctx, id)
+					if err != nil {
+						return fmt.Errorf("failed to get json for dashboard: %s: %w", id, err)
+					}
 
-				err = ddc.writeJSONToFile(filepath.Join(args[0], id), json)
-				if err != nil {
-					c.log.Fatalw("failed to write dashboard json to file", zap.Error(err))
-				}
+					err = ddc.writeJSONToFile(filepath.Join(args[0], id), json)
+					if err != nil {
+						return fmt.Errorf("failed to write json for dashboard: %s: %w", id, err)
+					}
+
+					return nil
+				})
+			}
+
+			err = g.Wait()
+			if err != nil {
+				c.log.Fatalw("failed to export dashboards", zap.Error(err))
 			}
 
 			c.log.Info("dashboard export completed")
