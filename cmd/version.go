@@ -14,7 +14,7 @@ func (c *cli) newVersionCmd() *cobra.Command {
 		Example: "datadog-exporter version",
 		Args:    cobra.NoArgs,
 
-		Run: func(cmd *cobra.Command, args []string) {
+		Run: func(_ *cobra.Command, args []string) {
 			fmt.Println(c.version)
 		},
 	}
