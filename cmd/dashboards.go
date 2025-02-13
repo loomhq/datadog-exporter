@@ -31,7 +31,6 @@ func (c *cli) newDashboardsCmd() *cobra.Command {
 			g.SetLimit(concurrency)
 
 			for _, id := range dashboards {
-				id := id
 				g.Go(func() error {
 					log := c.log.With(zap.String("id", id))
 					log.Info("exporting dashboard")
