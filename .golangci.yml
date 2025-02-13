@@ -8,12 +8,12 @@ linters:
     - bodyclose
     - containedctx
     - contextcheck
+    - copyloopvar
     - durationcheck
     - errcheck
     - errname
     - errorlint
     - exhaustive
-    - exportloopref
     - forcetypeassert
     - funlen
     - gci
@@ -48,13 +48,13 @@ linters:
     - staticcheck
     - stylecheck
     - tagliatelle
-    - tenv
     - thelper
     - tparallel
     - typecheck
     - unconvert
     - unparam
     - unused
+    - usetesting
     - wastedassign
     - whitespace
     - wrapcheck

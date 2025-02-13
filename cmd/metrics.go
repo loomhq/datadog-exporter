@@ -31,7 +31,6 @@ func (c *cli) newMetricsCmd() *cobra.Command {
 			g.SetLimit(concurrency)
 
 			for _, name := range metrics {
-				name := name
 				g.Go(func() error {
 					log := c.log.With(zap.String("name", name))
 					log.Info("exporting metric")

@@ -32,7 +32,6 @@ func (c *cli) newMonitorsCmd() *cobra.Command {
 			g.SetLimit(concurrency)
 
 			for _, id := range monitors {
-				id := id
 				g.Go(func() error {
 					log := c.log.With(zap.Int64("id", id))
 					log.Info("exporting monitor")
