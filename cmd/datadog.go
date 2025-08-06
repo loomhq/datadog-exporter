@@ -98,6 +98,7 @@ func (d *ddc) metricTags(ctx context.Context, name string) (map[string][]string,
 
 		if !found {
 			out[key] = []string{}
+
 			continue
 		}
 
@@ -148,10 +149,10 @@ func (d *ddc) metricAnalysis(ctx context.Context, search string) ([][2]string, e
 		analysis = append(analysis, [2]string{key, strconv.Itoa(len(values))})
 	}
 
-	// we know that the string is a valid number so we can ignore conversion errors
 	sort.Slice(analysis, func(i, j int) bool {
-		one, _ := strconv.Atoi(analysis[i][1]) //nolint:errcheck
-		two, _ := strconv.Atoi(analysis[j][1]) //nolint:errcheck
+		one, _ := strconv.Atoi(analysis[i][1]) //nolint:errcheck // we know that the string is a valid number so we can ignore conversion errors
+		two, _ := strconv.Atoi(analysis[j][1]) //nolint:errcheck // we know that the string is a valid number so we can ignore conversion errors
+
 		return one > two
 	})
 

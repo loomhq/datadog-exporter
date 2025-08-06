@@ -29,7 +29,7 @@ func Execute(version string, args []string, outW, errW io.Writer) int {
 	if err != nil {
 		log.Fatalf("failed to init zap logger: %v", err)
 	}
-	defer zap.Sync() //nolint:errcheck
+	defer zap.Sync() //nolint:errcheck // no check on defer
 
 	cli := &cli{}
 	cli.log = zap.Sugar()
