@@ -2,7 +2,7 @@ module github.com/loomhq/datadog-exporter
 
 go 1.23.0
 
-toolchain go1.24.6
+toolchain go1.25.0
 
 require (
 	github.com/DataDog/datadog-api-client-go/v2 v2.43.0
