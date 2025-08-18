@@ -5,7 +5,7 @@ go 1.23.0
 toolchain go1.25.0
 
 require (
-	github.com/DataDog/datadog-api-client-go/v2 v2.43.0
+	github.com/DataDog/datadog-api-client-go/v2 v2.44.0
 	github.com/spf13/cobra v1.9.1
 	go.uber.org/zap v1.27.0
 	golang.org/x/sync v0.16.0
