@@ -10,6 +10,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/DataDog/datadog-api-client-go/v2/api/datadog"
 	"github.com/DataDog/datadog-api-client-go/v2/api/datadogV1"
@@ -77,12 +78,25 @@ func (d *ddc) monitors(ctx context.Context) ([]int64, error) {
 func (d *ddc) metrics(ctx context.Context, search string) ([]string, error) {
 	ctx = datadog.NewDefaultContext(ctx)
 
-	list, _, err := d.metricAPI.ListMetrics(ctx, search)
+	// ListMetrics is deprecated, using ListActiveMetrics with a 24h lookback
+	from := time.Now().Add(-24 * time.Hour).Unix()
+	list, _, err := d.metricAPI.ListActiveMetrics(ctx, from, *datadogV1.NewListActiveMetricsOptionalParameters())
 	if err != nil {
 		return nil, fmt.Errorf("failed to list metrics: %w", err)
 	}
 
-	return list.Results.Metrics, nil
+	if search == "" {
+		return list.Metrics, nil
+	}
+
+	var out []string
+	for _, m := range list.Metrics {
+		if strings.Contains(m, search) {
+			out = append(out, m)
+		}
+	}
+
+	return out, nil
 }
 
 // metricTags return a map of tag keys to a list of tag values for a given metric name.
