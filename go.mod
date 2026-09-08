@@ -1,6 +1,6 @@
 module github.com/loomhq/datadog-exporter
 
-go 1.25.0
+go 1.26.0
 
 toolchain go1.26.2
 
@@ -8,7 +8,7 @@ require (
 	github.com/DataDog/datadog-api-client-go/v2 v2.56.0
 	github.com/spf13/cobra v1.10.2
 	go.uber.org/zap v1.28.0
-	golang.org/x/sync v0.20.0
+	golang.org/x/sync v0.23.0
 )
 
 require (
